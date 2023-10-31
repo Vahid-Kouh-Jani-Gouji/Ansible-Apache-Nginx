@@ -1,0 +1,51 @@
+---
+- name: Intro to Ansible Playbooks
+  hosts: all
+
+  
+
+  tasks:
+  - name: Add the user 'foo'
+    ansible.builtin.user:
+      name: foo
+    become: yes
+    become_method: sudo
+  - name: upgrade all packages
+    yum:
+      name: '*'
+      state: latest
+    become: yes
+  - name: install the latest version of vim
+    yum:
+      name: vim
+      state: latest
+    become: yes
+  - name: install the latest version of nano
+    yum:
+      name: nano
+      state: latest
+    become: yes
+  - name: install the nginx rpm from a remote repo
+    yum:
+      name: nginx
+      state: present
+    become: yes
+  - name: install the latest version of Apache
+    yum:
+      name: httpd
+      state: latest
+    become: yes
+  - name: Copy index.html file to remote server
+    copy:
+      src:  index.html
+      dest: /usr/share/nginx/html/index.html
+    become: yes
+    notify:
+      - Restart Nginx
+
+  handlers:
+  - name: Restart Nginx
+    service:
+      name: nginx
+      state: restarted
+    become: yes
