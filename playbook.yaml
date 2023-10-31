@@ -35,6 +35,16 @@
       name: httpd
       state: latest
     become: yes
+  - name: Set execute permission on autoUpdate.sh
+    file:
+      path: autoUpdate.sh
+      mode: u+x
+  - name: Add cron job to run script every hour
+    cron:
+      name: Run script every hour
+      minute: 0
+      hour: '*'
+      job: autoUpdate.sh
   - name: Copy index.html file to remote server
     copy:
       src:  index.html
@@ -49,3 +59,5 @@
       name: nginx
       state: restarted
     become: yes
+  
+
