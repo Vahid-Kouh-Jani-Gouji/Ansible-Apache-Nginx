@@ -1,0 +1,40 @@
+---
+- name: deploy webserver
+  hosts: web02 
+  become: true
+  tasks:
+    # - name: Update apt cache
+    #   apt:
+    #     update_cache: yes
+    # - name: upgrade all packages
+    #   apt:
+    #     name: '*'
+    #     state: latest
+    #   become: yes
+    # - name: install the nginx
+    #   apt:
+    #     name: nginx
+    #     state: latest
+    #   become: yes 
+    #   notify: Restart Nginx
+    
+  
+
+    - name: Copy index.html file to remote server
+      copy:
+        src:  index.html
+        dest: /var/www/html/index.html
+      become: yes
+      notify: Console message
+  handlers:
+    # - name: Restart Nginx
+    #   service:
+    #     name: nginx
+    #     state: restarted
+    #   become: yes
+    - name: Console message
+      debug:
+        msg: "The file has been copied."
+    
+...
+

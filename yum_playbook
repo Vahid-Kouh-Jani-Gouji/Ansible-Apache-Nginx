@@ -1,0 +1,35 @@
+---
+- name: deploy webserver
+  hosts: web01
+
+  tasks:
+  # - name: install the nginx
+  #   yum:
+  #     name: nginx
+  #     state: latest
+  #   become: yes 
+  #   notify: Restart Nginx
+  
+ 
+  
+  - name: Copy index.html file to remote server
+    copy:
+      src:  index.html
+      dest: /usr/share/nginx/html/index.html
+    become: yes
+    notify: Console message
+
+
+  handlers:
+  # - name: Restart Nginx
+  #   service:
+  #     name: nginx
+  #     state: restarted
+  #   become: yes
+  - name: Console message
+    debug:
+      msg: "The file has been copied."
+
+
+  
+...
